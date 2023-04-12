@@ -24,7 +24,7 @@ def main():
 
     # init args
     args = parse_args()
-    assert args.config_file is not "", 'a config file must be provided!'
+    assert args.config_file != "", 'a config file must be provided!'
     assert os.path.exists(args.config_file), 'the config file must be existed!'
 
     # init and load retrieval pipeline settings
@@ -32,7 +32,7 @@ def main():
     cfg = setup_cfg(cfg, args.config_file, args.opts)
 
     # set path for single image
-    path = '/data/caltech101/query/airplanes/image_0004.jpg'
+    path = 'data/caltech101/query/panda.jpg'
 
     # build transformers
     transformers = build_transformers(cfg.datasets.transformers)

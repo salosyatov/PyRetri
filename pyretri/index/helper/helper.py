@@ -74,7 +74,7 @@ class IndexHelper:
 
         for idx in query_topk_idx:
             img_path = gallery_info[idx]["path"]
-            shutil.copy(img_path, os.path.join(save_path, str(idx)+'.png'))
+            shutil.copy(img_path, os.path.join(save_path, str(idx)+'.jpg'))
 
     def do_index(self, query_fea: np.ndarray, query_info: List, gallery_fea: np.ndarray) -> (List, np.ndarray, np.ndarray):
         """

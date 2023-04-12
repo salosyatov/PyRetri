@@ -28,3 +28,7 @@ wheels/
 .vscode
 
 .DS_Store
+/data/caltech101/*
+/data/features/*
+/pyretri.egg-info/*
+/retrieved_images/*.jpg
