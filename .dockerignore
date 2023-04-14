@@ -1,0 +1,7 @@
+/api/checkpoints/*
+/venv
+/pyretri.egg-info
+/data/caltech101
+/data/features/caltech
+/build
+/dist

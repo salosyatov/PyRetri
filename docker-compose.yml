@@ -1,0 +1,35 @@
+version: '3'
+services:
+  api:
+    container_name: landmarks_api
+    build: .
+    environment:
+      - FLASK_APP=api.py
+      - FLASK_DEBUG=1
+      - PYTHONBUFFERED=True
+    command: gunicorn -b :5000 api.api:app
+    ports:
+      - 5000:5000
+    networks:
+      - landmarks-net
+    volumes:
+      - .:/landmarks_app
+      - ./data:/data
+
+  main:
+    container_name: landmarks
+    build: .
+    command: python bot.py
+    env_file:
+      - ./bot/.env
+    ports:
+      - 8081:8081
+    networks:
+      - landmarks-net
+    volumes:
+      - .:/landmarks_app
+      - ./data:/data
+networks:
+  landmarks-net:
+    driver: bridge
+

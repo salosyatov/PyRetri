@@ -2,6 +2,8 @@
 
 import argparse
 import os
+from pathlib import Path
+
 from PIL import Image
 import numpy as np
 
@@ -15,12 +17,12 @@ from pyretri.index import build_index_helper, feature_loader
 def parse_args():
     parser = argparse.ArgumentParser(description='A tool box for deep learning-based image retrieval')
     parser.add_argument('opts', default=None, nargs=argparse.REMAINDER)
-    parser.add_argument('--config_file', '-cfg', default=None, metavar='FILE', type=str, help='path to config file')
+    parser.add_argument('--config_file', default='configs/own.yaml', metavar='FILE', type=str, help='path to config file') # TODO:
     args = parser.parse_args()
     return args
 
 
-def main():
+def main(img: np.ndarray, topk = 5):
 
     # init args
     args = parse_args()
@@ -31,9 +33,6 @@ def main():
     cfg = get_defaults_cfg()
     cfg = setup_cfg(cfg, args.config_file, args.opts)
 
-    # set path for single image
-    path = 'data/caltech101/query/panda.jpg'
-
     # build transformers
     transformers = build_transformers(cfg.datasets.transformers)
 
@@ -41,7 +40,7 @@ def main():
     model = build_model(cfg.model)
 
     # read image and convert it to tensor
-    img = Image.open(path).convert("RGB")
+
     img_tensor = transformers(img)
 
     # build helper and extract feature for single image
@@ -59,11 +58,32 @@ def main():
     # build helper and single index feature
     index_helper = build_index_helper(cfg.index)
     index_result_info, query_fea, gallery_fea = index_helper.do_index(img_fea, img_fea_info, gallery_fea)
+    save = False
+    if save:
+        index_helper.save_topk_retrieved_images('retrieved_images/', index_result_info[0], topk, gallery_info)
 
-    index_helper.save_topk_retrieved_images('retrieved_images/', index_result_info[0], 5, gallery_info)
+    query_idx = index_result_info[0]["ranked_neighbors_idx"]
+
+    query_topk_idx = query_idx[:topk]
+    paths = [str(Path(gallery_info[idx]["path"])) for idx in query_topk_idx]
+    labels = [gallery_info[idx]["label"] for idx in query_topk_idx]
 
     print('single index have done!')
+    return paths, labels
+
+
+class Recognizer:
+
+    def __int__(self):
+        pass
+
+    def find_similar(self, image: np.ndarray, k: int):
+        paths, labels = main(image, topk=k)
+        return paths, labels
 
 
 if __name__ == '__main__':
-    main()
+    path = 'data/query/32.jpg'
+    img = Image.open(path).convert("RGB")
+    # img = Image.fromarray(array)
+    main(img)
