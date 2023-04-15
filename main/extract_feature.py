@@ -1,16 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import argparse
-import os
-
-import torch
 
 from pyretri.config import get_defaults_cfg, setup_cfg
 from pyretri.datasets import build_folder, build_loader
-from pyretri.models import build_model
 from pyretri.extract import build_extract_helper
-
-from torchvision import models
+from pyretri.models import build_model
 
 
 def parse_args():

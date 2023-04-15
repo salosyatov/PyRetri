@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import argparse
-import os
-import pickle
-
 
 from pyretri.config import get_defaults_cfg, setup_cfg
-from pyretri.index import build_index_helper, feature_loader
 from pyretri.evaluate import build_evaluate_helper
+from pyretri.index import build_index_helper, feature_loader
 
 
 def parse_args():

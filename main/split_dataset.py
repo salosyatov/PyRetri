@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import argparse
-import os
 
 from pyretri.extract.utils import split_dataset
 

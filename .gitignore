@@ -32,3 +32,6 @@ wheels/
 /data/features/*
 /pyretri.egg-info/*
 /retrieved_images/*.jpg
+/bot/data/uploaded/*
+/data/own/gallery/*
+/data/uploaded/*

@@ -103,29 +103,32 @@ async def get_landmarks(message: types.Message):
         elif message.document:
             await bot.download_file(file_info.file_path, save_path)
 
-        top_similar = get_top_similar_from_file(save_path)
+        try:
+            top_similar = get_top_similar_from_file(save_path)
 
-        # Good bots should send chat actions...
-        await types.ChatActions.upload_photo()
+            # Good bots should send chat actions...
+            await types.ChatActions.upload_photo()
 
-        media = types.MediaGroup()
-        paths = []
-        for idx in range(TOP_K):
-            path = top_similar["paths"][idx]
-            if not Path(path).exists():
-                path = os.path.join(os.getcwd(), path)
+            media = types.MediaGroup()
+            paths = []
+            for idx in range(TOP_K):
+                path = top_similar["paths"][idx]
+                if not Path(path).exists():
+                    path = os.path.join(os.getcwd(), path)
 
-            path = str(Path(path).resolve())
-            path = path.replace("/", os.sep).replace("\\", os.sep)
-            print(str(path))
-            if os.path.exists(path):
-                media.attach_photo(types.InputFile(path), top_similar["labels"][idx].strip().replace("_", " "))
-            else:
-                print(str(path), 'does not exist')
+                path = str(Path(path).resolve())
+                path = path.replace("/", os.sep).replace("\\", os.sep)
+                name = Path(path).stem
+                if os.path.exists(path):
+                    media.attach_photo(types.InputFile(path), name.replace("_", " "))
+                else:
+                    print(str(path), 'does not exist')
 
-            paths.append(str(path))
+                paths.append(str(path))
 
-        await message.answer_media_group(media=media)
+            await message.answer_media_group(media=media)
+        except Exception as e:
+            await message.answer("Ошибка: \n" + str(e))
 
     
     else:

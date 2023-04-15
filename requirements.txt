@@ -4,8 +4,7 @@ torchvision>=0.4
 scikit-learn
 yacs
 tqdm
-matplotlib
-flask
 Pillow
-urllib3
-gunicorn
+aiogram 
+requests 
+python-dotenv

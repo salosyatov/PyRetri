@@ -2,9 +2,6 @@
 
 from ..utils import Registry
 
-from typing import Dict
-
-
 ENHANCERS = Registry()
 METRICS = Registry()
 DIMPROCESSORS = Registry()
