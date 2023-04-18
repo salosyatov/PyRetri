@@ -6,6 +6,7 @@ from .registry import COLLATEFNS, FOLDERS, TRANSFORMERS
 
 from ..utils import get_config_from_registry
 
+
 def get_collate_cfg() -> CfgNode:
     cfg = get_config_from_registry(COLLATEFNS)
     cfg["name"] = "unknown"

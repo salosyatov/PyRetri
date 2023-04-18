@@ -2,7 +2,7 @@
 
 datasets:
   # number of images in a batch.
-  batch_size: 16
+  batch_size: 10
 
   # function for stacking images in a batch.
   collate_fn:

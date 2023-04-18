@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
 from torch.utils.data import DataLoader
-from torchvision.transforms import Compose
+from torchvision.transforms import Compose, ToTensor, Normalize, Resize
 from yacs.config import CfgNode
 
+from .registry import COLLATEFNS, FOLDERS, TRANSFORMERS
 from .collate_fn import CollateFnBase
 from .folder import FolderBase
-from .registry import COLLATEFNS, FOLDERS, TRANSFORMERS
+from .transformer import TransformerBase
+
 from ..utils import simple_build
 
 
