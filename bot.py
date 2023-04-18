@@ -55,31 +55,16 @@ def get_top_similar_from_file(path):
 
     data = {'image': im_b64}
     response = requests.post(url=API_ENDPOINT, data=data, timeout=30, verify=False)
-    # from requests.adapters import HTTPAdapter
-    # from urllib3.util.retry import Retry
-    #
-    # session = requests.Session()
-    # retry = Retry(connect=5, backoff_factor=0.5)
-    # adapter = HTTPAdapter(max_retries=retry)
-    # session.mount('http://', adapter)
-    # session.mount('https://', adapter)
-    # headers = requests.utils.default_headers()
-    # response = session.post(url=API_ENDPOINT, data=data, timeout=30, headers=headers)
 
     top_similar = response.json()
     return top_similar
 
 
-
-
-
-
 @dp.message_handler(filters.CommandStart())
 async def send_welcome(message: types.Message):
-    greeting = f"Привет, {message.from_user.first_name}!\n"
-    msg_info_1 = f"Загрузи картинку, и я попробую ее определить или найти похожие на нее.\n"
-    msg_info_2 = "Ответ в формате: 5 картинок + подписи к ним"
-    await message.reply(greeting + msg_info_1 + msg_info_2)
+    greeting = f"Hi, {message.from_user.first_name}!\n"
+    msg_info_1 = f"Upload a picture and I will try to find 5 similar pictures from my database.\n"
+    await message.reply(greeting + msg_info_1)
 
 
 @dp.message_handler(content_types=['photo', 'document'])
@@ -94,7 +79,7 @@ async def get_landmarks(message: types.Message):
 
     if file_info.file_path.lower().endswith(('.png', '.jpg', '.jpeg')):
 
-        await message.reply("Секундочку...")
+        await message.reply("Just a second...")
 
         save_path = UPL_DIR + file_info.file_path
 
@@ -128,11 +113,10 @@ async def get_landmarks(message: types.Message):
 
             await message.answer_media_group(media=media)
         except Exception as e:
-            await message.answer("Ошибка: \n" + str(e))
+            await message.answer("Error: \n" + str(e))
 
-    
     else:
-        await message.answer('Нужно загрузить фото в одном из форматов: "jpg", "png", "jpeg"')
+        await message.answer('You should upload photo in "jpg", "png", or "jpeg" format.')
 
 
 if __name__ == '__main__':

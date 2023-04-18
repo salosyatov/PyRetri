@@ -8,5 +8,3 @@ WORKDIR ${HOME}
 COPY . /landmarks_app
 WORKDIR /landmarks_app
 RUN python setup.py  install
-
-RUN pip install aiogram requests Pillow python-dotenv
