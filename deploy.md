@@ -1,5 +1,6 @@
 ```
 git clone https://github.com/salosyatov/PyRetri.git
+git pull
 cd Pyretri
 python setup.py install
 ```
@@ -9,6 +10,7 @@ python setup.py install
 - добавить файлы в `data/own/gallery`
 - выполнить команды:
 ```
+pip install matplotlib
 python main/make_data_json.py -d data/own/gallery/ -sp data_jsons/own_gallery.json -t general
 python main/extract_feature.py -dj data_jsons/own_gallery.json -sp data/features/own/gallery/ -cfg configs/own.yaml
 ```
@@ -31,7 +33,14 @@ docker pull salos/pyretri-main
 ```
 docker run -d --memory="1g" pyretri-main python bot.py
 ```
-Чтоб остановить контейнер 
+Чтоб увидеть текущие контейнеры
 ```
-docker container stop #container_name
+docker container ls
+```
+
+Чтоб остановить и удалить контейнер 
+```
+docker stop <Container_ID>
+docker rm <Container_ID>
+
 ```
