@@ -1,7 +1,7 @@
 ```
 git clone https://github.com/salosyatov/PyRetri.git
-git pull
 cd Pyretri
+git pull
 python setup.py install
 ```
 
