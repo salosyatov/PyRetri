@@ -91,7 +91,7 @@ async def get_landmarks(message: types.Message):
                 if not os.path.exists(path):
                     path = os.path.join(os.getcwd(), path)
 
-                path = os.path.normpath(path)
+                path = path.replace("/", os.sep).replace("\\", os.sep)
                 folder, file = path.split(os.sep)[-2], path.split(os.sep)[-1]
                 caption = ''
                 if config_info is not None:
@@ -106,7 +106,7 @@ async def get_landmarks(message: types.Message):
                     caption += f"{folder}/{file}\n"
 
                 caption = caption.replace('.', r'\.').replace('_', r'\_')
-                path = path.replace("/", os.sep).replace("\\", os.sep)
+
                 if os.path.exists(path):
                     media.attach_photo(types.InputFile(path), caption=caption, parse_mode='MarkdownV2')
                 else:

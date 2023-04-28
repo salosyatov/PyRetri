@@ -60,16 +60,6 @@ def get_hash():
     return sha
 
 
-def readme():
-    """Get readme.
-    Returns:
-        str, readme content string.
-    """
-    with open('README.md') as fid:
-        content = fid.read()
-    return content
-
-
 def write_version_py():
     """Write version.py.
     """
@@ -176,7 +166,7 @@ if __name__ == '__main__':
         name='pyretri',
         version=get_version(),
         description='A Toolbox for Deep Learning-based Image Retrieval',
-        long_description=readme(),
+        long_description='A Toolbox for Deep Learning-based Image Retrieval',
         author='Megvii & XJTU',
         author_email='https://github.com/???',
         keywords='computer vision, image retrieval',
