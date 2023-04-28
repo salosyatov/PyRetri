@@ -35,3 +35,4 @@ wheels/
 /bot/data/uploaded/*
 /data/own/gallery/*
 /data/uploaded/*
+/data/landmarks/gallery/*

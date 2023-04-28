@@ -102,6 +102,9 @@ async def get_landmarks(message: types.Message):
                     link = info.get("href", "")
                     if link:
                         caption += f'[Link]({link})\n'
+                    source = info.get("source", "")
+                    if source:
+                        caption += f'[Source]({source})\n'
                 if not caption:
                     caption += f"{folder}/{file}\n"
 
