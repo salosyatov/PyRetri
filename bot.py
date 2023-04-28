@@ -105,11 +105,12 @@ async def get_landmarks(message: types.Message):
                 if not caption:
                     caption += f"{folder}/{file}\n"
 
-                caption = caption.replace('.', r'\.')
+                caption = caption.replace('.', r'\.').replace('_', r'\_')
+                path = path.replace("/", os.sep).replace("\\", os.sep)
                 if os.path.exists(path):
                     media.attach_photo(types.InputFile(path), caption=caption, parse_mode='MarkdownV2')
                 else:
-                    print(str(path), 'does not exist')
+                    raise Exception(f"File {path} does not exist")
 
             await message.answer_media_group(media=media)
         except Exception as e:
