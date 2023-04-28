@@ -6,6 +6,7 @@ from pathlib import Path
 
 from PIL import Image
 import numpy as np
+from dotenv import load_dotenv
 
 from pyretri.config import get_defaults_cfg, setup_cfg
 from pyretri.datasets import build_transformers
@@ -14,10 +15,15 @@ from pyretri.extract import build_extract_helper
 from pyretri.index import build_index_helper, feature_loader
 
 
+load_dotenv("bot/.env")
+
+default_config_file = os.getenv("CONFIG_YAML", '')
+
+
 def parse_args():
     parser = argparse.ArgumentParser(description='A tool box for deep learning-based image retrieval')
     parser.add_argument('opts', default=None, nargs=argparse.REMAINDER)
-    parser.add_argument('--config_file', default='configs/own.yaml', metavar='FILE', type=str, help='path to config file') # TODO:
+    parser.add_argument('--config_file', default=default_config_file, metavar='FILE', type=str, help='path to config file') # TODO:
     args = parser.parse_args()
     return args
 
