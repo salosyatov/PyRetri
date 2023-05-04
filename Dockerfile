@@ -7,7 +7,7 @@ WORKDIR ${HOME}
 
 COPY bot /landmarks_app/bot
 COPY configs /landmarks_app/configs
-COPY pyretri /landmarks_app/pyretri
+COPY main_module /landmarks_app/main_module
 COPY data/landmarks /landmarks_app/data/landmarks
 COPY data/features/landmarks /landmarks_app/data/features/landmarks
 COPY data_jsons /landmarks_app/data_jsons

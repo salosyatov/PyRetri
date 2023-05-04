@@ -8,12 +8,12 @@ import torch
 import argparse
 import importlib
 
-from pyretri.config import get_defaults_cfg
-from pyretri.datasets import build_folder, build_loader
-from pyretri.models import build_model
-from pyretri.extract import build_extract_helper
+from main_module.config import get_defaults_cfg
+from main_module.datasets import build_folder, build_loader
+from main_module.models import build_model
+from main_module.extract import build_extract_helper
 
-from pyretri.models.backbone import ft_net
+from main_module.models.backbone import ft_net
 
 
 def load_datasets():

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import argparse
 
-from pyretri.extract.utils import split_dataset
+from main_module.extract.utils import split_dataset
 
 
 def parse_args():

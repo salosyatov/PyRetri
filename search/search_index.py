@@ -7,9 +7,9 @@ import argparse
 
 from utils.misc import check_result_exist, get_dir, get_default_result_dict
 
-from pyretri.config import get_defaults_cfg
-from pyretri.index import build_index_helper, feature_loader
-from pyretri.evaluate import build_evaluate_helper
+from main_module.config import get_defaults_cfg
+from main_module.index import build_index_helper, feature_loader
+from main_module.evaluate import build_evaluate_helper
 
 
 # # gap, gmp, gem, spoc, crow

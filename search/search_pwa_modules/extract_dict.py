@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from utils.search_modules import SearchModules
-from pyretri.config import get_defaults_cfg
+from main_module.config import get_defaults_cfg
 
 models = SearchModules()
 extracts = SearchModules()

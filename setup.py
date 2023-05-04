@@ -10,7 +10,7 @@ MINOR = 1
 PATCH = 0
 SUFFIX = ''
 SHORT_VERSION = '{}.{}.{}{}'.format(MAJOR, MINOR, PATCH, SUFFIX)
-VERSION_FILE = 'pyretri/version.py'
+VERSION_FILE = 'main_module/version.py'
 
 
 def get_git_hash():
@@ -51,7 +51,7 @@ def get_hash():
         sha = get_git_hash()[:7]
     elif os.path.exists(VERSION_FILE):
         try:
-            from pyretri.version import __version__
+            from main_module.version import __version__
             sha = __version__.split('+')[-1]
         except ImportError:
             raise ImportError('Unable to get git version')
@@ -163,23 +163,9 @@ def parse_requirements(fname='requirements.txt', with_version=True):
 if __name__ == '__main__':
     write_version_py()
     setup(
-        name='pyretri',
+        name='main_module',
         version=get_version(),
-        description='A Toolbox for Deep Learning-based Image Retrieval',
-        long_description='A Toolbox for Deep Learning-based Image Retrieval',
-        author='Megvii & XJTU',
-        author_email='https://github.com/???',
-        keywords='computer vision, image retrieval',
-        url='https://github.com/???',
-        classifiers=[
-            'Development Status :: 4 - Beta',
-            'License :: OSI Approved :: Apache Software License',
-            'Operating System :: OS Independent',
-            'Programming Language :: Python :: 3',
-            'Programming Language :: Python :: 3.5',
-            'Programming Language :: Python :: 3.6',
-            'Programming Language :: Python :: 3.7',
-        ],
+        description='Main module',
         license='Apache License 2.0',
         install_requires=[
             'numpy', 'torch>=1.2', 'torchvision>=0.4', 'scikit-learn', 'yacs', 'tqdm',

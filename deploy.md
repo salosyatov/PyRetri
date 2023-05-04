@@ -1,10 +1,7 @@
+Чтобы собрать модуль, нужно выполнить:
 ```
-git clone https://github.com/salosyatov/PyRetri.git
-cd Pyretri
-git pull
 python setup.py install
 ```
-
 
 Чтобы подготовить файлы для поиска, нужно:
 - добавить файлы в `data/landmarks/gallery`
@@ -19,7 +16,7 @@ python main/extract_feature.py -dj data_jsons/landmarks_gallery.json -sp data/fe
 ```
 docker build -t landmarks .
 ```
-Чтобы повесить тэг:
+Чтобы повесить тэг (здесь и далее вместо salos использовать свой логин на докерхабе):
 ```
 docker image tag landmarks salos/landmarks
 ```
@@ -31,7 +28,7 @@ docker pull salos/landmarks
 
 Чтоб запустить бот:
 ```
-docker run -d --memory="1g" landmarks python bot.py
+docker run -d --memory="2g" landmarks python bot.py
 ```
 Чтоб увидеть текущие контейнеры
 ```

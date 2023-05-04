@@ -2,9 +2,9 @@
 
 import argparse
 
-from pyretri.config import get_defaults_cfg, setup_cfg
-from pyretri.evaluate import build_evaluate_helper
-from pyretri.index import build_index_helper, feature_loader
+from main_module.config import get_defaults_cfg, setup_cfg
+from main_module.evaluate import build_evaluate_helper
+from main_module.index import build_index_helper, feature_loader
 
 
 def parse_args():

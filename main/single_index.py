@@ -8,11 +8,11 @@ from PIL import Image
 import numpy as np
 from dotenv import load_dotenv
 
-from pyretri.config import get_defaults_cfg, setup_cfg
-from pyretri.datasets import build_transformers
-from pyretri.models import build_model
-from pyretri.extract import build_extract_helper
-from pyretri.index import build_index_helper, feature_loader
+from main_module.config import get_defaults_cfg, setup_cfg
+from main_module.datasets import build_transformers
+from main_module.models import build_model
+from main_module.extract import build_extract_helper
+from main_module.index import build_index_helper, feature_loader
 
 
 load_dotenv("bot/.env")

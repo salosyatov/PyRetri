@@ -2,7 +2,7 @@
 
 import argparse
 
-from pyretri.extract import make_data_json
+from main_module.extract import make_data_json
 
 
 def parse_args():
