@@ -4,6 +4,7 @@ import os
 import PIL
 from PIL import Image
 from aiogram import Bot, Dispatcher, executor, filters, types
+from aiogram.utils.markdown import escape_md, bold
 from dotenv import load_dotenv
 
 from main.single_index import Recognizer
@@ -16,7 +17,7 @@ CONFIG_INFO_JSON = os.getenv("CONFIG_INFO_JSON")
 # config
 IMG_DIR = "../data/filtered/"
 UPL_DIR = "bot/data/uploaded/"
-TOP_K = 5
+TOP_K = 3
 
 MAX_SIZE = (256, 256)
 
@@ -25,7 +26,7 @@ if not os.path.exists(UPL_DIR):
 
 config_info = None
 if os.path.exists(CONFIG_INFO_JSON):
-    with open(CONFIG_INFO_JSON, 'r') as fp:
+    with open(CONFIG_INFO_JSON, 'r', encoding='utf8') as fp:
         config_info = json.load(fp)
 
 bot = Bot(token=API_TOKEN)
@@ -70,7 +71,7 @@ async def get_landmarks(message: types.Message):
 
     if file_info.file_path.lower().endswith(('.png', '.jpg', '.jpeg')):
 
-        await message.reply("Just a second...")
+        await message.reply("Just a few seconds...")
 
         save_path = UPL_DIR + file_info.file_path
 
@@ -98,14 +99,17 @@ async def get_landmarks(message: types.Message):
                     info = config_info.get(folder, {}).get(file, {})
                     description = info.get("description", "")
                     if description:
-                        caption += f"**{description}**\n"
+                        caption += bold(description) + "\n"
                     link = info.get("href", "")
                     if link:
-                        caption += f'[Link]({link})\n'
+                        caption += f'[Link]({escape_md(link)})\n'
+                    source = info.get("source", "")
+                    if source:
+                        caption += f'[Source]({escape_md(source)})\n'
                 if not caption:
-                    caption += f"{folder}/{file}\n"
+                    caption += escape_md(f"{folder}/{file}\n")
 
-                caption = caption.replace('.', r'\.').replace('_', r'\_')
+                # caption = caption.replace('.', r'\.').replace('_', r'\_')
 
                 if os.path.exists(path):
                     media.attach_photo(types.InputFile(path), caption=caption, parse_mode='MarkdownV2')
