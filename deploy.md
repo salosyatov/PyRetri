@@ -8,6 +8,13 @@ python setup.py install
 
 Чтобы подготовить файлы для поиска, нужно:
 - добавить файлы в `data/own/gallery`
+
+Чтобы выполнить аугментацию:
+```
+pip install albumentations
+python main/augment.py -f data/own/gallery/
+
+```
 - выполнить команды:
 ```
 pip install matplotlib
