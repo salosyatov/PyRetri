@@ -12,12 +12,12 @@ from main.single_index import Recognizer
 load_dotenv("bot/.env")
 
 API_TOKEN = os.getenv("TELEGRAM_API_TOKEN")
-CONFIG_INFO_JSON = os.getenv("CONFIG_INFO_JSON")
+CONFIG_INFO_JSON = os.getenv("CONFIG_INFO_JSON", '')
 
 # config
 IMG_DIR = "../data/filtered/"
 UPL_DIR = "bot/data/uploaded/"
-TOP_K = 3
+TOP_K = 5
 
 MAX_SIZE = (256, 256)
 
