@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 from tqdm import tqdm
 import albumentations as A
+import time
 
 
 def parse_args():
@@ -66,19 +67,25 @@ def main():
         for name in files:
             paths.append(os.path.join(path, name))
 
+    t0 = time.time()
     for path in tqdm(paths):
-        for name, transform in transform_dict.items():
-            try:
-                if path.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif')):
-                    image = np.asarray(PIL.Image.open(path))
-                    transformed_image = transform(image=image)['image']
-                    im = PIL.Image.fromarray(transformed_image)
+        try:
+            if path.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif')):
+                image = np.asarray(PIL.Image.open(path))
+
+                for name, transform in transform_dict.items():
                     p = Path(path)
-                    im.save(str(p.parent / (name + '_' + p.name)))
-            except Exception as exc:
-                print(path, str(exc))
+                    new_path = str(p.parent / (name + '_' + p.name))
+                    if not os.path.exists(new_path):
+                        transformed_image = transform(image=image)['image']
+                        im = PIL.Image.fromarray(transformed_image)
+                        im.save(new_path)
+        except Exception as exc:
+            print(path, str(exc))
 
     print("Augmentation is done.")
+    t1 = time.time()
+    print(f"It took {float(t1-t0)} seconds")
 
 
 if __name__ == '__main__':
