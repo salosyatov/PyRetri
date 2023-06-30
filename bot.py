@@ -4,8 +4,10 @@ import os
 import PIL
 from PIL import Image
 from aiogram import Bot, Dispatcher, executor, filters, types
+from aiogram.types import ContentType
 from aiogram.utils.markdown import escape_md, bold
 from dotenv import load_dotenv
+import openai
 
 from main.single_index import Recognizer
 
@@ -13,6 +15,7 @@ load_dotenv("bot/.env")
 
 API_TOKEN = os.getenv("TELEGRAM_API_TOKEN")
 CONFIG_INFO_JSON = os.getenv("CONFIG_INFO_JSON", '')
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # config
 IMG_DIR = "../data/filtered/"
@@ -32,6 +35,7 @@ if os.path.exists(CONFIG_INFO_JSON):
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
 
+messages = []
 
 def get_image(path, resize=True):
     image = Image.open(path).convert("RGB")
@@ -60,14 +64,34 @@ async def send_welcome(message: types.Message):
     await message.reply(greeting + msg_info_1)
 
 
-@dp.message_handler(content_types=['photo', 'document'])
+@dp.message_handler(content_types=ContentType.TEXT)
+async def get_answers(message: types.Message):
+    try:
+        messages.append({'role': 'user', 'content': message.text})
+
+        completion = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=messages
+        )
+
+        chat_response = completion.choices[0].message.content
+        messages.append({"role": "assistant", "content": chat_response})
+        print(messages)
+        await message.answer(f'From ChatGPT\n: {chat_response}')
+    except Exception as e:
+        await message.answer("Error: \n" + str(e))
+
+
+@dp.message_handler(content_types=[ContentType.PHOTO, ContentType.DOCUMENT])
 async def get_landmarks(message: types.Message):
     if message.photo:
         PhotoSize = message.photo[-1]
         file_info = await bot.get_file(PhotoSize.file_id)
+        messages.clear()
     elif message.document:
         file_id = message.document.file_id
         file_info = await bot.get_file(file_id)
+        messages.clear()
 
     if file_info.file_path.lower().endswith(('.png', '.jpg', '.jpeg')):
 
@@ -87,6 +111,7 @@ async def get_landmarks(message: types.Message):
             await types.ChatActions.upload_photo()
 
             media = types.MediaGroup()
+            descriptions = set()
             for idx in range(TOP_K):
                 path = top_similar["paths"][idx]
                 if not os.path.exists(path):
@@ -100,6 +125,7 @@ async def get_landmarks(message: types.Message):
                     description = info.get("description", "")
                     if description:
                         caption += bold(description) + "\n"
+                        descriptions.add(description)
                     link = info.get("href", "")
                     if link:
                         caption += f'[Link]({escape_md(link)})\n'
@@ -109,14 +135,27 @@ async def get_landmarks(message: types.Message):
                 if not caption:
                     caption += escape_md(f"{folder}/{file}\n")
 
-                # caption = caption.replace('.', r'\.').replace('_', r'\_')
-
                 if os.path.exists(path):
                     media.attach_photo(types.InputFile(path), caption=caption, parse_mode='MarkdownV2')
                 else:
                     raise Exception(f"File {path} does not exist")
 
             await message.answer_media_group(media=media)
+            if len(descriptions) > 0:
+                initial_message = f"Tell me something about {', '.join(descriptions)}."
+                messages.append({'role': 'user', 'content': initial_message})
+
+                completion = openai.ChatCompletion.create(
+                    model="gpt-3.5-turbo",
+                    messages=messages
+                )
+
+                chat_response = completion.choices[0].message.content
+                messages.append({"role": "assistant", "content": chat_response})
+                await message.answer(f'Info from ChatGPT\n: {chat_response}')
+                await message.answer('You may ask ChatGPT again.')
+            else:
+                await message.answer(f'There is no descriptions from photos. You may ask ChatGPT about anything you like.')
         except Exception as e:
             await message.answer("Error: \n" + str(e))
 

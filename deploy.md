@@ -24,21 +24,21 @@ python main/extract_feature.py -dj data_jsons/own_gallery.json -sp data/features
 
 Чтобы собрать образ:
 ```
-docker build -t pyretri-main .
+docker build -t pyretri-main:gpt .
 ```
 Чтобы повесить тэг:
 ```
-docker image tag pyretri-main salos/pyretri-main
+docker image tag pyretri-main:gpt salos/pyretri-main:gpt
 ```
 Чтоб отправить в репозиторий и вытащить из него
 ```
-docker push salos/pyretri-main
-docker pull salos/pyretri-main
+docker push salos/pyretri-main:gpt
+docker pull salos/pyretri-main:gpt
 ```
 
 Чтоб запустить бот:
 ```
-docker run -d --memory="1g" pyretri-main python bot.py
+docker run -d --memory="1g" salos/pyretri-main:gpt python bot.py
 ```
 Чтоб увидеть текущие контейнеры
 ```
